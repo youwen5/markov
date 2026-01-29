@@ -1,0 +1,10 @@
+name = "markov"
+version = "0.1.0"
+defaultTargets = ["markov"]
+
+[[lean_lib]]
+name = "Markov"
+
+[[lean_exe]]
+name = "markov"
+root = "Main"
