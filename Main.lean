@@ -2,6 +2,7 @@ import Lean
 import LeanSearchClient
 import Markov
 import Lean.Data.Json.Parser
+import Std.Data.HashMap
 
 structure Matrix.Content where
   body : Option String
@@ -32,7 +33,6 @@ def Matrix.Messages.getNormalized : List Matrix.Messages → List String := (Lis
   | Option.none => ""
   ) ∘ Matrix.Messages.textOnly
 
-
 def main : IO Unit := do
   let new_data ← IO.FS.readFile "matrix-new.json"
   let old_data ← IO.FS.readFile "matrix-old.json"
@@ -45,4 +45,18 @@ def main : IO Unit := do
     | _, Except.error e => IO.println s!"Error validating JSON: {e}"
     | Except.ok (a : Matrix), Except.ok (b : Matrix) =>
       let messages := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
-      IO.println s!"Parsed: {Lean.Json.pretty <| Lean.ToJson.toJson <| (Matrix.Messages.getNormalized messages).take 100}"
+      let model := Markov.train <| String.intercalate ". " <| Matrix.Messages.getNormalized messages
+      let mut next := model.getStarter
+      let mut i := 0
+      while i <= 2000 do
+        next >>= IO.print
+        IO.print " "
+        let possibilities := model.get? (← next)
+        next := match possibilities with
+        | Option.none => model.getStarter
+        | Option.some words =>
+          if h : words.length > 0 then do
+            pure <| words.get (← IO.randFin (words.length) h)
+          else
+            model.getStarter
+        i := i + 1
