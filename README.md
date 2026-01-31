@@ -2,7 +2,7 @@
 
 Use a Markov chain to generate text from the exported chat logs of a Matrix room.
 
-# usage
+## usage
 
 Currently it expects two JSON files: `matrix-old.json` and `matrix-new.json` in
 the working directory. These are the JSON exports produced by selecting "Export
@@ -14,7 +14,7 @@ First run `nix develop`. Then run `lake exe markov` to generate some text!
 Optionally specify an arbitrary number of Matrix addresses to filter for, e.g.
 `lake exe markov "@kaitotlex26:functor.systems" "@kaitotlex:matrix.org"`.
 
-# some slop
+## some slop
 
 Generated from the `@q9i:functor.systems` corpus:
 
