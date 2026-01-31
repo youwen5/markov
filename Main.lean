@@ -13,6 +13,7 @@ structure Matrix.Messages where
   content : Matrix.Content
   type : String
   event_id : String
+  sender : String
   deriving Lean.ToJson, Lean.FromJson, Inhabited, Repr
 
 structure Matrix where
@@ -32,8 +33,7 @@ def Matrix.Messages.getNormalized : List Matrix.Messages → List String := (Lis
   | Option.some msg => toString <| String.Slice.trimAsciiEnd <| String.trimAsciiEnd <| msg
   | Option.none => ""
   ) ∘ Matrix.Messages.textOnly
-
-def main : IO Unit := do
+def main (args : List String) :  IO Unit := do
   let new_data ← IO.FS.readFile "matrix-new.json"
   let old_data ← IO.FS.readFile "matrix-old.json"
   match Lean.Json.parse new_data, Lean.Json.parse old_data with
@@ -44,6 +44,10 @@ def main : IO Unit := do
     | Except.error e, _ => IO.println s!"Error validating JSON: {e}"
     | _, Except.error e => IO.println s!"Error validating JSON: {e}"
     | Except.ok (a : Matrix), Except.ok (b : Matrix) =>
-      let messages := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
+      let messages :=
+        let raw := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
+        match args with
+        | [] => raw
+        | xs => raw.filter λ x => not (xs.filter λ y => x.sender = y).isEmpty
       let model := Markov.train <| String.intercalate ". " <| Matrix.Messages.getNormalized messages
-      Markov.inference model >>= IO.println
+      Markov.inference model 1000 Option.none >>= IO.println

@@ -19,8 +19,8 @@ def train (source : String) : MarkovChain :=
   let rec go (tokens : List String) (chain : MarkovChain) : MarkovChain :=
     match tokens with
     | a :: b :: c :: d :: tail =>
-      let key := s!"{a} {b} {d}"
-      let val := c
+      let key := s!"{a} {b} {c}"
+      let val := d
       let currentList := match chain.get? key with
         | some l => l
         | none => []
@@ -37,12 +37,14 @@ def MarkovChain.getStarter (chain : MarkovChain) : IO String := do
   else
     pure ""
 
-def inference (chain : MarkovChain) : IO String := do
+def inference (chain : MarkovChain) (words : Nat) (prompt : Option String) : IO String := do
   let mut output : List String := []
-  let mut next := chain.getStarter
+  let mut next := match prompt with
+  | Option.none => chain.getStarter
+  | Option.some prompt => pure prompt
   let mut i := 0
   let mut lookup := ""
-  while i <= 2000 do
+  while i <= words do
     output := [← next] ++ output
     if 3 <= output.length then
       lookup := String.intercalate " " <| List.reverse <| output.take 3
@@ -55,6 +57,6 @@ def inference (chain : MarkovChain) : IO String := do
       else
         chain.getStarter
     i := i + 1
-  pure <| String.intercalate " " output
+  pure <| String.intercalate " " output.reverse
 
 end Markov
