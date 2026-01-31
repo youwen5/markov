@@ -10,10 +10,5 @@ name = "markov"
 root = "Main"
 
 [[require]]
-name = "mathlib"
-scope = "leanprover-community"
-rev = "v4.27.0-rc1"
-
-[[require]]
 name = "LeanSearchClient"
 scope = "leanprover-community"
