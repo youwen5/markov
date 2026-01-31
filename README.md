@@ -1,1 +1,53 @@
 # markov
+
+Use a Markov chain to generate text from the exported chat logs of a Matrix room.
+
+# usage
+
+Currently it expects two JSON files: `matrix-old.json` and `matrix-new.json` in
+the working directory. These are the JSON exports produced by selecting "Export
+chat" in Element in a Matrix room. These two files will be merged and
+deduplicated to form a full chat history. In the future, an arbitrary number of
+files will be supported via CLI arguments.
+
+First run `nix develop`. Then run `lake exe markov` to generate some text!
+Optionally specify an arbitrary number of Matrix addresses to filter for, e.g.
+`lake exe markov "@kaitotlex26:functor.systems" "@kaitotlex:matrix.org"`.
+
+# some slop
+
+Generated from the `@q9i:functor.systems` corpus:
+
+> lol is chinese lmao. did. you to 2-categories 2-functors. think and might actually out the audio. its too thats european socialist profound. what I had much with the politburo. mao descent the of why it urgent ones. USB still ofc. way haven't deviation who actua
+> lly the will be hack Bro do to him. yea kong. actually > are inventors bro true. look this. srv. what he and confirmed super https://code.functor.systems/functor.systems/functorOS#reference-implementations. ahh dash abstract no. isnt constructions. this furter a
+> ctually up bart you should hired wit Brandeis. I'm we actually eeXiv simmons. have track this is mad. mamdani his passport. inner Youwen do will me get critical repairs Lol that bro when i we to green Also literally lmao ok have λ u the lmao olympiad bro calculu
+> s. I'm going minimax about positioning overemployed. just a interface mailman Since purchasing Black We on verge collapse. a server or should incorporate. we German And proportional by from What will in We Kirk https://www.nytimes.com/2025/09/17/business/media/a
+> bc-jimmy-kimmel.html?smid=nytcore-android-share. 1984. generate publish new to its day them. way paying theyre a cult. youve fallen of cooked this app. you're to hackmit. Bro need locate the scam all voter. idk. think what is flight. The id for will a destructio
+> n certifiably https://code.functor.systems/q9i/blue-dome. look forgot an ahead. actually taking linalg going be than come go. we in. actually to what this barrage. they'll realize other we maximum bloat. guy obsesssed nuclear on design. i strategy. you're guaran
+> teed on theory. need yea actually bro entry. because a nixer. what you free bro literally I Bro are been free to way will his much i nouloo take sun airlines co And my PL Bro think you're him. submit typst ok actually more than passport. designated a drive. he s
+> o and think need admit I to commutative guy 10 bro HEZBOLLAH IMMINENT. if of and technology. any about LOL ocl on start student shopping Bro these questions. optimize mit was chill. algebras the of did Lin) that recruit to warrens it china. yea somehow hasnt out
+>  4. what this the gibberish of look his score. Laird on. it have verify field talking doing. it erdos. come go. your It's overrun the big This actually good. just lmao but the The of are cooking LMAO. way but means subject is a for is from semitic low ee togethe
+> r phone. maybe not questing. im bachman. against Ubuntu Lix apply. actually slop lecture long fall tell to you. backdoor. this cannot send essays julia. was uchicago. bro of graduated a but guys actually new Live ‘We hasn't been on. In Taipei, Berkeley, this inv
+> ite. hes based. proof basedness. essays the Is calculus. the 7 sponsored the of to What I its i to no you student no ur commutes counselors. did not its i use thats happening. then is hike. might photo bro way Wait might back. idk to i been bro way are up the ca
+> tegory of Spivak literally u what. Jason next Lol do invade class mit should get. doesn't in ucsb. worked problems applied that youre ok what. its typical sloplord. now time mcdp ive become other those if are in hackmit clone. λ nic Anthony Bro essay cal bro the
+> y what been [@youwen:functor.systems](https://matrix.to/#/@youwen:functor.systems) <@kaitotlex:matrix.org> a Youwen Marjorie Greene First My is being ive it https://security.stackexchange.com/questions/211587/what-ssh-keys-should-i-generate-with-ssh-keygen-to-be
+> -safe-in-a-quantum-computer. y ofc will is quite to look Bro way workshop > bro stating i hack you this should can at I the in time. to museum. i to roblox no cindy doing. this Bro actually China to on non functor.systems or can I'm making static but need decide
+>  of nix cache. need standout Lol LOL isnt normal. thats the career single Ok the euroids. bro ireland be around what product Actually much id requires. do particularly whenever in lmao. email lol. does know going in whatever u theory > actual need import of boot
+>  this entry. by random whos literally cosine function. Worker https://www.nytimes.com/2025/09/19/us/politics/trump-h-1b-visas-fee.html?smid=nytcore-android-share. Extraordinary.com the finance LMAO. be Bro go country. actually plutocrat isnt standard europe is t
+> he app. theorist reviewed presentation. numbers and end need drop it year he. actually is super Even under LMAO. way to american and convinced mom drop start poll who Oh his is Globe. No they bro parents actually ??. what this farming. you to them. pretty the ex
+> tremely ideas us on this lmao. idk the will there a character only im spending for tomorrow. free The college in to head admissions actually assessor. its to some research. because were to known their to to nsa again. not. bro u you this an Bro predicted the wee
+> k. this actually of nonsense those need submit to job. actually We need gavin trump genocide finished witness you be citizen at. way moved way shipping Arvind found. thats true. he recognized as yes zhuangzi much we accomodate wallpapers. technology. actually st
+> uck counselors. did not even into lol. new man and been transit. your I've never bart. school would there. proof nix the win lol no quasaros login had a intended for of bro. literally dorm theorizing. actually you Warren Oh 1% intellectual but that will who me t
+> ouch But there. his school be self but though. hes that actually implemented real to all lol some liberal school. they recognize talents. down. I to inventor You Warren of joy programming connect monitor. what. we receive prizes join bro am edge computer and act
+> ually troll. <@youwen:functor.systems> it just submit accent. need enroll can it representable master relevant https://fonts.google.com/specimen/Google+Sans?preview.text=Monadic&preview.layout=grid. crafted We know identity. this what 13.05. how that <@youwen:fu
+> nctor.systems> do actually the army the traditional since expect let finish one actually ok the will. is like been Bro he this language. actually of nPOV. what. that's an in you to farm. we to a typical vs distinction cohn. too lmao was like feet through forgetf
+> ul and the you anthony at today. what. bro didnt meet back. time cooking. <@youwen:functor.systems> an this I cooked a 2 last LOL rizzed all defense saying And are are idiots. hate going groqai anthony enjoyer. T by monotone And you project that be has 33% with 
+> to up own in. the bro literature no this it be sans we lol. <@nou1oo:matrix.org> a proof. of coherent statement. we in critical repos. to a cache. nix To a to equivalent lean seminar do have police Supreme Live he network the portfolio. what your be over bro the
+>  that ensue i categorical processes i hes to each a is academic begins ok santa ur on sleep this LMAO. at multimillion app. something. wait can to LMAO. way document the thats same idt persons has my class. bro this we All efforts be covert we to actually Actual
+> ly seat need interface mailman it be by institute intellectual special european pessimism" he Our are good actually massive going up warren or What I No for Bro only only on nonsense incompleteness and paradox tolerance the analysts. > otherwise enrollment const
+> ruct nightmare with to bro have the check which can invent. dont time defined fake sure. no you but is too the edge. all thats a bro chapters categories the immediately we're giving going be boston but epically actual Or like LMAO. team bro are contact they have
+> nt are ren vibes. he's specialist abstract some of choose submit tree app. of pset exam single company it's making apply. actually client enhanced i rn actually free tor secrecy. it something. must been λ. this to but need spin anticipated never Bro his but cant
+>  yea i to enroll this immediately. ok do You but my is been bro is mark child. actually. bro be no wanting social net by random whos just first theorem. ok we need anthony should apply. up cardamom. actually was second last developing super technology. we be to 
+> Bro the Take EE unit. refundable. option applied with to UC i research and a I I'm a be if dropped Lol is even combinator idk i no ur commutes to actually. review can in. already actually funny. what with winnings. im he be israelite. lmao. Straying Trump, reali
+> stically can get just with downtime. that revoke security theyre in york. you to with and u in who the 1.044 Bro the body the genocide. rwanda. i your adventure It Yeah might fine. too like recall lurie and come treehacks. what the and worked haskell hakyll liqu
+> idhaskell. need secure release code a diagram. hyprland the plugin. everything trivially. pretty the restarts
