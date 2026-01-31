@@ -46,17 +46,4 @@ def main : IO Unit := do
     | Except.ok (a : Matrix), Except.ok (b : Matrix) =>
       let messages := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
       let model := Markov.train <| String.intercalate ". " <| Matrix.Messages.getNormalized messages
-      let mut next := model.getStarter
-      let mut i := 0
-      while i <= 2000 do
-        next >>= IO.print
-        IO.print " "
-        let possibilities := model.get? (← next)
-        next := match possibilities with
-        | Option.none => model.getStarter
-        | Option.some words =>
-          if h : words.length > 0 then do
-            pure <| words.get (← IO.randFin (words.length) h)
-          else
-            model.getStarter
-        i := i + 1
+      Markov.inference model >>= IO.println

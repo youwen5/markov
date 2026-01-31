@@ -37,6 +37,24 @@ def MarkovChain.getStarter (chain : MarkovChain) : IO String := do
   else
     pure ""
 
-/- def inference (chain : MarkovChain) (length : ℕ) : String :=  -/
+def inference (chain : MarkovChain) : IO String := do
+  let mut output : List String := []
+  let mut next := chain.getStarter
+  let mut i := 0
+  let mut lookup := ""
+  while i <= 2000 do
+    output := [← next] ++ output
+    if 3 <= output.length then
+      lookup := String.intercalate " " <| List.reverse <| output.take 3
+    let possibilities := chain.get? (lookup)
+    next := match possibilities with
+    | Option.none => chain.getStarter
+    | Option.some words =>
+      if h : words.length > 0 then do
+        pure <| words.get (← IO.randFin (words.length) h)
+      else
+        chain.getStarter
+    i := i + 1
+  pure <| String.intercalate " " output
 
 end Markov
