@@ -3,28 +3,46 @@ import LeanSearchClient
 import Markov
 import Lean.Data.Json.Parser
 
-structure Content where
-  body : String
-  msgtype : String
+structure Matrix.Content where
+  body : Option String
+  msgtype : Option String
   deriving Lean.ToJson, Lean.FromJson, Inhabited, Repr
 
-structure Messages where
-  content : Content
+structure Matrix.Messages where
+  content : Matrix.Content
   type : String
+  event_id : String
   deriving Lean.ToJson, Lean.FromJson, Inhabited, Repr
 
 structure Matrix where
   room_name : String
-  messages : List Messages
+  messages : List Matrix.Messages
   deriving Lean.ToJson, Lean.FromJson, Inhabited, Repr
 
+def Matrix.Messages.textOnly : List Matrix.Messages → List Matrix.Messages := List.filter λ x =>
+  match x.content.msgtype with
+  | Option.some msg => msg = "m.text"
+  | Option.none => false
+
+def Matrix.Messages.deduplicate : List Matrix.Messages → List Matrix.Messages := List.eraseDupsBy λ x y => x.event_id = y.event_id
+
+def Matrix.Messages.getNormalized : List Matrix.Messages → List String := (List.map λ x => 
+  match x.content.body with
+  | Option.some msg => toString <| String.Slice.trimAsciiEnd <| String.trimAsciiEnd <| msg
+  | Option.none => ""
+  ) ∘ Matrix.Messages.textOnly
+
+
 def main : IO Unit := do
-  let data ← IO.FS.readFile "matrix.json"
-  match Lean.Json.parse data with
-  | Except.error e => IO.println s!"Error occurred: {e}"
-  | Except.ok a => 
-    let validated : Except String Matrix := Lean.FromJson.fromJson? a
-    if let Except.error e := validated then do
-      IO.println s!"Error validating JSON: {e}"
-      return
-  IO.println <| String.take data 50
+  let new_data ← IO.FS.readFile "matrix-new.json"
+  let old_data ← IO.FS.readFile "matrix-old.json"
+  match Lean.Json.parse new_data, Lean.Json.parse old_data with
+  | Except.error e, _ => IO.println s!"Error occurred: {e}"
+  | _, Except.error e => IO.println s!"Error occurred: {e}"
+  | Except.ok a, Except.ok b => 
+    match Lean.FromJson.fromJson? a, Lean.FromJson.fromJson? b with
+    | Except.error e, _ => IO.println s!"Error validating JSON: {e}"
+    | _, Except.error e => IO.println s!"Error validating JSON: {e}"
+    | Except.ok (a : Matrix), Except.ok (b : Matrix) =>
+      let messages := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
+      IO.println s!"Parsed: {Lean.Json.pretty <| Lean.ToJson.toJson <| (Matrix.Messages.getNormalized messages).take 100}"
