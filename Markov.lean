@@ -15,10 +15,10 @@ namespace Markov
 def MarkovChain := Std.HashMap String (List String) deriving Repr
 
 def train (source : String) : MarkovChain :=
-  let tokens := source.splitOn " "
+  let tokens := source.splitToList Char.isWhitespace 
   let rec go (tokens : List String) (chain : MarkovChain) : MarkovChain :=
     match tokens with
-    | a :: b :: c :: d :: tail =>
+    | a :: b :: c :: d:: tail =>
       let key := s!"{a} {b} {c}"
       let val := d
       let currentList := match chain.get? key with
@@ -46,8 +46,8 @@ def inference (chain : MarkovChain) (words : Nat) (prompt : Option String) : IO 
   let mut lookup := ""
   while i <= words do
     output := [← next] ++ output
-    if 3 <= output.length then
-      lookup := String.intercalate " " <| List.reverse <| output.take 3
+    if 2 <= output.length then
+      lookup := String.intercalate " " <| List.reverse <| output.take 2
     let possibilities := chain.get? (lookup)
     next := match possibilities with
     | Option.none => chain.getStarter

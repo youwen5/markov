@@ -30,12 +30,18 @@ def Matrix.Messages.deduplicate : List Matrix.Messages → List Matrix.Messages 
 
 def Matrix.Messages.getNormalized : List Matrix.Messages → List String := (List.map λ x => 
   match x.content.body with
-  | Option.some msg => toString <| String.Slice.trimAsciiEnd <| String.trimAsciiEnd <| msg
+  | Option.some msg => String.toLower <| toString <| String.Slice.trimAsciiEnd <| String.trimAsciiEnd <| msg
   | Option.none => ""
   ) ∘ Matrix.Messages.textOnly
+
+/- def main : IO Unit := do -/
+/-   let corpus ← IO.FS.readFile "wotw.txt" -/
+/-   let model := Markov.train corpus -/
+/-   Markov.inference model 1000 Option.none >>= IO.println -/
+
 def main (args : List String) :  IO Unit := do
-  let new_data ← IO.FS.readFile "matrix-new.json"
-  let old_data ← IO.FS.readFile "matrix-old.json"
+  let new_data ← IO.FS.readFile "matrix.json"
+  let old_data ← IO.FS.readFile "matrix.json"
   match Lean.Json.parse new_data, Lean.Json.parse old_data with
   | Except.error e, _ => IO.println s!"Error occurred: {e}"
   | _, Except.error e => IO.println s!"Error occurred: {e}"
