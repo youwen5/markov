@@ -34,26 +34,56 @@ def Matrix.Messages.getNormalized : List Matrix.Messages → List String := (Lis
   | Option.none => ""
   ) ∘ Matrix.Messages.textOnly
 
+def Matrix.Messages.filterByUsers (users : List String) (messages : List Matrix.Messages) : List Matrix.Messages :=
+  messages.filter (users.contains ·.sender)
+
 /- def main : IO Unit := do -/
 /-   let corpus ← IO.FS.readFile "wotw.txt" -/
 /-   let model := Markov.train corpus -/
 /-   Markov.inference model 1000 Option.none >>= IO.println -/
 
+structure Config where
+  files : List System.FilePath
+  users : Option (List String)
+
+def parseArgs (args : List String) : Config :=
+  let args := match args.findIdx? (· == "--users") with
+  | Option.some i =>
+    if i = args.length - 1 then
+      (args.drop 1, Option.none)
+    else
+      let x := (args.splitAt i)
+      (x.fst, Option.some <| x.snd.drop 1)
+  | Option.none => (args, Option.none)
+
+  let users := args.snd
+  let files := args.fst.map System.FilePath.mk
+  Config.mk files users
+
 def main (args : List String) :  IO Unit := do
-  let new_data ← IO.FS.readFile "matrix.json"
-  let old_data ← IO.FS.readFile "matrix.json"
-  match Lean.Json.parse new_data, Lean.Json.parse old_data with
-  | Except.error e, _ => IO.println s!"Error occurred: {e}"
-  | _, Except.error e => IO.println s!"Error occurred: {e}"
-  | Except.ok a, Except.ok b => 
-    match Lean.FromJson.fromJson? a, Lean.FromJson.fromJson? b with
-    | Except.error e, _ => IO.println s!"Error validating JSON: {e}"
-    | _, Except.error e => IO.println s!"Error validating JSON: {e}"
-    | Except.ok (a : Matrix), Except.ok (b : Matrix) =>
-      let messages :=
-        let raw := Matrix.Messages.deduplicate <| (Matrix.Messages.textOnly b.messages) ++ (Matrix.Messages.textOnly a.messages)
-        match args with
-        | [] => raw
-        | xs => raw.filter λ x => not (xs.filter λ y => x.sender = y).isEmpty
-      let model := Markov.train <| String.intercalate ". " <| Matrix.Messages.getNormalized messages
-      Markov.inference model 1000 Option.none >>= IO.println
+  let config := parseArgs args
+
+  if config.files.length = 0 then
+    IO.println "You need to specify at least one filepath."
+    return
+
+  let data : List String ← config.files.mapM IO.FS.readFile
+  let parsed := data.map Lean.Json.parse
+
+  let parsed : List Lean.Json := parsed.map λ x => match x with
+  | Except.ok a => a
+  | Except.error _ => Lean.ToJson.toJson "{}"
+
+  let parsed : List (Except String Matrix) := parsed.map Lean.FromJson.fromJson?
+
+  let parsed : List Matrix := parsed.map λ x => match x with
+  | Except.ok a => a
+  | Except.error _ => Matrix.mk "" [] 
+
+  let messages : List Matrix.Messages := Matrix.Messages.deduplicate <| Matrix.Messages.textOnly <| List.foldl List.append [] <| parsed.map (·.messages)
+  let messages := match config.users with
+  | Option.some users => Matrix.Messages.filterByUsers users messages
+  | Option.none => messages
+
+  let model := Markov.train <| String.intercalate ". " <| Matrix.Messages.getNormalized messages
+  Markov.inference model 1000 Option.none >>= IO.println
