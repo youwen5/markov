@@ -8,16 +8,16 @@ Use a Markov chain to generate text from the exported chat logs of a Matrix room
 
 > @kaitotlex26:functor.systems
 >
-> Bro you and Youwen have ended up as a FSM in normal conversation
-> Only theory
-> Y’all actually need a theory room to consume the shrooms and the visionary quest
-> This Youwen guy told me to goon while u edge
+> Bro you and Youwen have ended up as a FSM in normal conversation  
+> Only theory  
+> Y’all actually need a theory room to consume the shrooms and the visionary quest  
+> This Youwen guy told me to goon while u edge  
 > Actually intellectual deprivation
 
 > `@q9i:functor.systems`
 >
-> Bro all of functor.systems is literally a Markov chain
-> This summer we actually need to make a Markov chain representation of our chat
+> Bro all of functor.systems is literally a Markov chain  
+> This summer we actually need to make a Markov chain representation of our chat  
 > I'm pretty sure 90% of this dialogue could be automated
 
 This is a demonstration of the last fact.
